@@ -1,0 +1,18 @@
+# Data Handling & Math
+pandas
+numpy
+scikit-learn
+joblib
+
+# Visualization
+matplotlib
+seaborn
+
+# Models
+prophet
+statsmodels
+torch>=2.0.0
+torchvision
+
+# Jupyter Support
+ipykernel
