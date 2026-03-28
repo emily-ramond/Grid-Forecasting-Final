@@ -10,3 +10,6 @@ A lot of files present in BasisFormer are too big for git. This git: https://dri
 
 ## Outputs
 Note: The BasisFormer model requires significant GPU resources for training. For immediate review, all performance plots and metrics (sMAPE, MAE, and RMSE) are pre-rendered in the provided Project_new.ipynb file and technical report.
+
+## N8N Front-End Instructions
+the /models and /api folders are for running the n8n environment to interact with our AI agent.
