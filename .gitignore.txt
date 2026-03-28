@@ -1,0 +1,13 @@
+# Ignore heavy BasisFormer results
+*.npy
+*.pth
+**/records/
+
+# Ignore Jupyter and System noise
+.ipynb_checkpoints/
+__pycache__/
+.DS_Store
+Thumbs.db
+
+# Ignore raw data if it's over 100MB
+*.csv
