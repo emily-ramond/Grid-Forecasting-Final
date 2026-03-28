@@ -2,6 +2,28 @@
 An adaptive forecasting ecosystem for the Portuguese power grid using BasisFormer, PatchTST, and Gradient Boosting models
 
 # Instructions
+## File Structure:
+Grid-Forecasting-Final/
+├── Basisformer/                # [CLONE MANUALLY] Deep Learning model source code
+│   ├── main.py                 # Primary execution script
+│   ├── records/                # Outputs from training (if you train)
+├── models/                     # Pre-processed models for n8n
+│   ├── cluster_0.csv
+│   ├── cluster_1.csv
+│   ├── cluster_2.csv
+│   └── cluster_3.csv
+├── apis/                       # Pre-processed apis for n8n
+│   ├── cluster_0_api.py
+│   ├── cluster_1_api.py
+│   ├── cluster_2_api.py
+│   └── cluster_3_api.py
+├── technical-documentation/    # Technical documentation and final report
+├── slides/                     # Final presentation (PowerPoint/PDF)
+├── .gitignore                  # Instructions to ignore large .npy/weight files
+├── electricity.txt             # [USER PROVIDED] Raw UCI Electricity Dataset LD2011_2014.txt renamed
+├── project.ipynb               # Main analysis and visualization notebook
+├── requirements.txt            # Python dependencies (pip install -r requirements.txt)
+└── README.md                   # Project overview and setup instructions
 ## Data
 The raw dataset is the UCI ElectricityLoadDiagrams20112014 (https://archive.ics.uci.edu/dataset/321/electricityloaddiagrams20112014) and rename to electricity.txt. Due to GitHub size constraints, please download the LD2011_2014.txt file from the UCI Machine Learning Repository and place it in the root folder before running the notebook.
 
