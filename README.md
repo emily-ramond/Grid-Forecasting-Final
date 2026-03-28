@@ -8,6 +8,8 @@ The raw dataset is the UCI ElectricityLoadDiagrams20112014 (https://archive.ics.
 ## BasisFormer
 A lot of files present in BasisFormer are too big for git. This git: https://drive.google.com/drive/folders/1H1bb-iVZ03b_npWnUqEihi3DHlhBhIZr?usp=drive_link contains outputted best models. However, we highly suggest setting up and running BasisFormer locally to explore how it performed. Running the notebook should install and configure BasisFormer for you.
 
+You can read more about BasisFormer Here: https://github.com/nzl5116190/Basisformer
+
 ## Outputs
 Note: The BasisFormer model requires significant GPU resources for training. For immediate review, all performance plots and metrics (sMAPE, MAE, and RMSE) are pre-rendered in the provided Project_new.ipynb file and technical report.
 
