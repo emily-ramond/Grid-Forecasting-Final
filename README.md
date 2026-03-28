@@ -77,8 +77,8 @@ Agent formats and returns natural language response to user
 
 | Cluster | # Clients | Model | Port |
 |---------|-----------|-------|------|
-| 0 | 215 | PatchTST | 5000 |
-| 1 | 35 | Gradient Boosting | 5001 |
+| 0 | 215 | PatchTST | 5001 |
+| 1 | 35 | Gradient Boosting | 5002 |
 | 2 | 91 | PatchTST | 5003 |
 | 3 | 29 | TBD | 5004 |
 
