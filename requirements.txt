@@ -3,6 +3,8 @@ pandas
 numpy
 scikit-learn
 joblib
+statsmodels
+tqdm
 
 # Visualization
 matplotlib
