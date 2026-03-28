@@ -80,7 +80,7 @@ Agent formats and returns natural language response to user
 | 0 | 215 | PatchTST | 5001 |
 | 1 | 35 | Gradient Boosting | 5002 |
 | 2 | 91 | PatchTST | 5003 |
-| 3 | 29 | TBD | 5004 |
+| 3 | 29 | PatchTST | 5004 |
 
 ### Setup & Running
 
