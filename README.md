@@ -3,6 +3,7 @@ An adaptive forecasting ecosystem for the Portuguese power grid using BasisForme
 
 # Instructions
 ## File Structure:
+```
 Grid-Forecasting-Final/
 ├── Basisformer/                # [CLONE MANUALLY] Deep Learning model source code
 │   ├── main.py                 # Primary execution script
@@ -24,6 +25,7 @@ Grid-Forecasting-Final/
 ├── project.ipynb               # Main analysis and visualization notebook
 ├── requirements.txt            # Python dependencies (pip install -r requirements.txt)
 └── README.md                   # Project overview and setup instructions
+```
 ## Data
 The raw dataset is the UCI ElectricityLoadDiagrams20112014 (https://archive.ics.uci.edu/dataset/321/electricityloaddiagrams20112014) and rename to electricity.txt. Due to GitHub size constraints, please download the LD2011_2014.txt file from the UCI Machine Learning Repository and place it in the root folder before running the notebook.
 
