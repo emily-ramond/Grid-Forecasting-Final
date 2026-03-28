@@ -55,7 +55,7 @@ The `/models` and `/apis` folders are for running the n8n environment to interac
 
 The n8n agent is an agentic AI forecasting assistant for electricity usage. Instead of a single one-size-fits-all model, 370 electricity clients are grouped into 4 clusters based on their usage patterns, with a separate forecasting model trained per cluster. The AI agent routes each request to the correct model automatically.
 
-A business manager can open the n8n chat interface, type a client ID (e.g. `MT_035` or just `35`), optionally specify a date in 2014, and receive a natural language summary of that client's electricity usage forecast — without needing to know which model or cluster applies.
+A business manager can open the n8n chat interface, type a client ID (e.g. `MT_035` or just `35`), and receive a natural language summary of that client's electricity usage forecast — without needing to know which model or cluster applies.
 
 ### How It Works
 
@@ -134,8 +134,7 @@ What is the forecast for MT_035 on 2014-06-01?
 **Request:**
 ```json
 {
-  "client_id": "MT_035",
-  "date": "2014-06-01"
+  "client_id": "MT_035"
 }
 ```
 
@@ -145,12 +144,10 @@ What is the forecast for MT_035 on 2014-06-01?
   "client_id": "MT_035",
   "cluster": 2,
   "model": "PatchTST",
-  "forecast_date": "2014-06-01 00:00",
-  "forecast_hours": ["2014-06-01 00:00", "2014-06-01 01:00", "..."],
+  "forecast_date": "2014-01-01 00:00",
+  "forecast_hours": ["2014-16-01 00:00", "2014-01-01 01:00", "..."],
   "forecast_values": [245.3, 238.1, 231.7, "..."]
 }
 ```
-
-The `date` field is optional and defaults to `2014-01-01` if not provided. The date must be within 2014.
 
 > **Note:** n8n HTTP Request nodes use `http://host.docker.internal:PORT/forecast` to reach FastAPI servers running on the host machine from inside Docker.
