@@ -1,20 +1,24 @@
-# Data Handling & Math
-pandas
+# --- Data Analysis ---
 numpy
-scikit-learn
+pandas
 joblib
-statsmodels
-tqdm
 
-# Visualization
+# --- Visualization ---
 matplotlib
 seaborn
 
-# Models
-prophet
+# --- Machine Learning & Statistics ---
+scipy
+scikit-learn
 statsmodels
-torch>=2.0.0
-torchvision
+prophet
 
-# Jupyter Support
+# --- Deep Learning ---
+# For BasisFormer and PatchTST
+torch
+torchvision
+torchaudio
+
+# --- Utilities ---
+tqdm
 ipykernel
