@@ -59,7 +59,31 @@ Key findings:
 - Cluster 3 warrants a metric rethink — sMAPE or MAE may be more appropriate than MAPE for near-zero load profiles, and event-driven models with exogenous triggers may be needed to forecast it reliably
 - A production deployment would require automating cluster assignment for new clients and establishing a retraining schedule as the 2012–2013 frozen models degrade over time
 
-## File Structure:
+## Running the Models
+
+### Seasonal Naive, SARIMA, Prophet, Gradient Boosting, and PatchTST
+
+All of these models can be reproduced end-to-end by running `project.ipynb`. The notebook handles data loading, preprocessing, clustering, training, evaluation, and visualization in sequence. Make sure `electricity.txt` is in the root folder and dependencies are installed before running.
+
+```bash
+pip install -r requirements.txt
+jupyter notebook project.ipynb
+```
+
+### BasisFormer
+
+A lot of files present in BasisFormer are too big for git. The pre-trained models are available here:
+[Google Drive — BasisFormer models](https://drive.google.com/drive/folders/1H1bb-iVZ03b_npWnUqEihi3DHlhBhIZr?usp=drive_link)
+
+However, we highly suggest setting up and running BasisFormer locally to explore how it performed. Running `project.ipynb` should install and configure BasisFormer for you.
+
+You can read more about BasisFormer and clone the repo here:
+[github.com/nzl5116190/Basisformer](https://github.com/nzl5116190/Basisformer)
+
+> **Note:** BasisFormer requires significant GPU resources for training. For immediate review, all performance plots and metrics (sMAPE, MAE, and RMSE) are pre-rendered in `project.ipynb` and the technical report.
+
+
+### File Structure:
 ```
 Grid-Forecasting-Final/
 ├── Basisformer/                # [CLONE MANUALLY] Deep Learning model source code
