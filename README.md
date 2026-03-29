@@ -1,7 +1,63 @@
 # Grid-Forecasting-Final
 An adaptive forecasting ecosystem for the Portuguese power grid using BasisFormer, PatchTST, and Gradient Boosting models
 
-# Instructions
+## Introduction
+Motivates the cluster-first forecasting architecture. The core argument is that the 370 clients on the grid are behaviorally heterogeneous, and treating them as a single average or as 370 independent problems are both suboptimal strategies. The report introduces the four-stage solution: preprocessing, clustering, specialized model deployment, and an Agentic AI layer for real-time querying.
+
+## Data Extraction & Preprocessing
+Covers the full pipeline from raw UCI data to model-ready input:
+- **Source:** UCI ElectricityLoadDiagrams20112014, 15-minute readings for 370 clients (MT_001–MT_370)
+- **Cleaning:** 2011 data excluded due to high volumes of inactive meters and null values
+- **Resampling:** Downsampled from 15-minute to hourly frequency, yielding 26,304 observations per client
+- **Normalization:** StandardScaler applied per client to handle the large scale difference between residential and industrial consumers
+- **Temporal split:** 2012–2013 used for training, 2014 held out as the out-of-sample test set
+
+## Data Diagnostics & Clustering
+Describes the exploratory analysis and clustering process that produced the four behavioral profiles:
+- Visual and statistical inspection confirmed extreme diversity across clients in volatility, magnitude, and periodicity
+- 32 features were engineered per client: hourly load profiles, STL decomposition components, autocorrelation at 24h and 168h lags, and behavioral scalars (coefficient of variation, peak-to-mean ratio, weekend/weekday ratio)
+- PCA reduced the feature space for visualization; hierarchical clustering and silhouette analysis validated k=4 as the optimal number of clusters
+
+**The four resulting clusters:**
+
+| Cluster | Profile | # Clients |
+|---------|---------|-----------|
+| 0 | Residential — clear morning and evening peaks | 215 |
+| 1 | Industrial — 8am start, sustained plateau load | 35 |
+| 2 | Mixed-Use — low baseline, high intra-day variance | 91 |
+| 3 | Critical Infrastructure — smooth baseload, near-zero overnight | 29 |
+
+## Models
+Six models were evaluated, spanning statistical baselines through state-of-the-art deep learning:
+
+- **Seasonal Naive:** Repeats the value from exactly 168 hours prior (same hour, prior week). No fitting required. Serves as the lower-bound benchmark.
+- **SARIMA(1,1,1)(1,0,1,24):** Classical seasonal time series model fitted once per cluster on the training mean series. Linear structure limits its ability to capture non-linear industrial load patterns.
+- **Prophet:** Meta's additive decomposition model with piecewise trend, Fourier-series seasonality, and a holiday component. Best suited to smooth, regular profiles.
+- **BasisFormer:** A self-supervised transformer that learns a library of consumption "bases" from the full client dataset, then represents each forecast as a weighted combination of those bases. Trained with AdaBelief optimizer using prediction, contrastive (InfoNCE), and smoothness losses.
+- **Gradient Boosting (HistGradientBoostingRegressor):** Treats forecasting as tabular regression on engineered features — three lag values, rolling mean/std, and calendar features (hour, day of week, month, weekend flag). Log-transforms the target for variance stabilization.
+- **PatchTST (Nie et al., ICLR 2023):** Transformer-based model using two key innovations — subseries-level patching of the look-back window and channel-independence, where each client is processed as a separate univariate series through a shared backbone. Trained on all individual clients within each cluster simultaneously.
+
+## Results
+All models were evaluated on a 365-window sliding evaluation over the full 2014 test year, forecasting 24 hours ahead at each step. MAPE was the primary metric.
+
+| | Seasonal Naive | SARIMA | Prophet | BasisFormer | Gradient Boosting | PatchTST |
+|---|---|---|---|---|---|---|
+| **Cluster 0 (Residential)** | 6.41% | 29.15% | 50.26% | 171% | 4.59% | **4.49%** |
+| **Cluster 1 (Industrial)** | 11.16% | 45.34% | 258.94% | 107% | **8.63%** | 12.18% |
+| **Cluster 2 (Mixed-Use)** | 15.11% | 136.6% | 42.64% | 136% | 14.59% | **13.60%** |
+| **Cluster 3 (Critical Infra.)** | 117.41% | 1227.37% | 121.18% | 432% | 110.73% | **110.17%** |
+
+Key findings:
+- No single model wins across all clusters, validating the cluster-specialized routing approach
+- **PatchTST** is the strongest general-purpose model, winning on Clusters 0, 2, and 3
+- **Gradient Boosting** outperforms all models on Cluster 1, where calendar-driven shift schedules favor explicit feature engineering over pattern learning
+- Cluster 3 is an open challenge for all models; MAPE is misleadingly high due to near-zero denominators — sMAPE scores for the best models on that cluster are comparable to their performance elsewhere
+
+## Future Work & Limitations
+- The dataset lacks exogenous variables (temperature, pricing, industrial output) that would likely improve accuracy significantly in a real grid environment
+- Both transformer models were trained on cluster-mean series rather than per-client series due to compute constraints; per-client training would likely yield further gains
+- Cluster 3 warrants a metric rethink — sMAPE or MAE may be more appropriate than MAPE for near-zero load profiles, and event-driven models with exogenous triggers may be needed to forecast it reliably
+- A production deployment would require automating cluster assignment for new clients and establishing a retraining schedule as the 2012–2013 frozen models degrade over time
 
 ## File Structure:
 ```
@@ -35,17 +91,6 @@ Grid-Forecasting-Final/
 ├── requirements.txt            # Python dependencies (pip install -r requirements.txt)
 └── README.md                   # Project overview and setup instructions
 ```
-
-## Data
-The raw dataset is the UCI ElectricityLoadDiagrams20112014 (https://archive.ics.uci.edu/dataset/321/electricityloaddiagrams20112014) and rename to electricity.txt. Due to GitHub size constraints, please download the LD2011_2014.txt file from the UCI Machine Learning Repository and place it in the root folder before running the notebook.
-
-## BasisFormer
-A lot of files present in BasisFormer are too big for git. This git: https://drive.google.com/drive/folders/1H1bb-iVZ03b_npWnUqEihi3DHlhBhIZr?usp=drive_link contains the best models. However, we highly suggest setting up and running BasisFormer locally to explore how it performed. Running the notebook should install and configure BasisFormer for you.
-
-You can read more about BasisFormer and clone the repo here: https://github.com/nzl5116190/Basisformer
-
-## Outputs
-Note: The BasisFormer model requires significant GPU resources for training. For immediate review, all performance plots and metrics (sMAPE, MAE, and RMSE) are pre-rendered in the provided Project_new.ipynb file and technical report.
 
 ## N8N Front-End Instructions
 
